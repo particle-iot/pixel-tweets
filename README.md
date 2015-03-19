@@ -12,7 +12,7 @@ Stream tweet events and convert them to pixel data for a Spark Internet Button!
 
 #### Keys & Secrets
 
-You must create your own application to use the API. Please do so by going to the Twitter Application Management page.
+You must create your own application to use the API. Please do so by going to the [Twitter Application Management](https://apps.twitter.com/) page.
 
 * CONSUMER_KEY
 * CONSUMER_SECRET
