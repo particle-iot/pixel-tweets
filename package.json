@@ -1,0 +1,29 @@
+{
+  "name": "pixeltweets",
+  "version": "1.0.0",
+  "description": "Tweet to control the color of the LEDs on a Spark Internet Button.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index"
+  },
+  "keywords": [
+    "spark",
+    "LED",
+    "twitter",
+    "art"
+  ],
+  "author": {
+    "name": "Emily Rose",
+    "email": "nexxy@spark.io",
+    "url": "https://github.com/emilyrose"
+  },
+  "license": "LGPL",
+  "dependencies": {
+    "color": "^0.8.0",
+    "colornames": "0.0.2",
+    "nconf": "^0.7.1",
+    "request": "^2.53.0",
+    "spark": "^0.4.2",
+    "twitter": "^1.2.3"
+  }
+}
