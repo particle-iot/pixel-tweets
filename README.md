@@ -1,4 +1,4 @@
-sparklertweets
+pixel-tweets
 ============
 Stream tweet events and convert them to pixel data for a Spark Internet Button!
 
@@ -33,5 +33,19 @@ You need all four of these to run the twitter stream included in `npm start`. Co
     "spark_password": ""
   }
   ```
+  
+### Installation
+#### Firmware
 
-  Once you've selected your
+The easiest way to flash the firmware is to use the Spark CLI to directly flash the firmware binary to your Core:
+
+```bash
+spark flash --usb ./firmware/bin/firmware.bin 
+```
+
+#### JavaScript
+
+Just use npm to start the server!
+```bash
+npm start
+```
