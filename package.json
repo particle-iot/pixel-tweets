@@ -1,6 +1,6 @@
 {
   "name": "pixeltweets",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "Tweet to control the color of the LEDs on a Spark Internet Button.",
   "main": "index.js",
   "scripts": {
