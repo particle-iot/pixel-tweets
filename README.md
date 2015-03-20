@@ -20,7 +20,7 @@ You must create your own application to use the API. Please do so by going to th
 * ACCESS_TOKEN_KEY
 * ACCESS_TOKEN_SECRET
 
-You need all four of these to run the twitter stream included in `npm start`. Configuration options are detected via `nconf`, and you may specify them in your config.json file (placed at the root of the project directory):
+You need all four of these to run the twitter stream included in `npm start`. Configuration options are detected via [nconf](https://github.com/indexzero/nconf), and you may specify them in your config.json file (placed at the root of the project directory):
 
 
 #### Configuration file format
