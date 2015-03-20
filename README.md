@@ -39,7 +39,7 @@ You need all four of these to run the twitter stream included in `npm start`. Co
 ### Installation
 #### Firmware
 
-The easiest way to flash the firmware is to use the Spark CLI to directly flash the firmware binary to your Core:
+The easiest way to flash the firmware is to [put your Core into DFU mode](http://docs.spark.io/connect/#appendix-dfu-mode-device-firmware-upgrad), and use the Spark CLI to directly flash the firmware binary to your Core:
 
 ```bash
 spark flash --usb ./firmware/bin/firmware.bin 
