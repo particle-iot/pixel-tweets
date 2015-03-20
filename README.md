@@ -54,6 +54,7 @@ npm start
 
 ### Usage
 
+#### Tweeting
 Once you have your Spark Core flashed, your Twitter application created, and your Node process running; you may tweet at your Internet Button! Use the following format:
 
 ```
@@ -70,3 +71,7 @@ Any of the following tweets are valid:
 ```
 
 The order of hashtag, pixel number, and color are irrelevant. Any tweet that can be parsed to find a number between 1-11 and a valid CSS color name or hex value (in 3 or 6 digit format) will work. The filter can also be something other than a hashtag!
+
+#### Picking the right colors to tweet
+
+Choosing the right hue can be challenging. See this lovely list of CSS color names on [W3schools.com](http://www.w3schools.com/cssref/css_colornames.asp) for inspiring color choices!
