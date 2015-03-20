@@ -74,4 +74,4 @@ The order of hashtag, pixel number, and color are irrelevant. Any tweet that can
 
 #### Picking the right colors to tweet
 
-Choosing the right hue can be challenging. See this lovely list of CSS color names on [W3schools.com](http://www.w3schools.com/cssref/css_colornames.asp) for inspiring color choices!
+Choosing the perfect hue can be challenging. See this lovely list of CSS color names on [W3schools.com](http://www.w3schools.com/cssref/css_colornames.asp) for inspiring color choices!
