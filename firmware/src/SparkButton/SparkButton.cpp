@@ -7,17 +7,17 @@ Adafruit_NeoPixel ring = Adafruit_NeoPixel(PIXEL_COUNT, PIXEL_PIN, PIXEL_TYPE);
 ADXL362 accelerometer;
 
 SparkButton::SparkButton(){
-    
+
 }
 
 void SparkButton::begin(){
     ring.begin();
     ring.show();
-    
+
     accelerometer.begin();                   // Setup SPI protocol, issue device soft reset
-    accelerometer.beginMeasure();            // Switch ADXL362 to measure mode  
+    accelerometer.beginMeasure();            // Switch ADXL362 to measure mode
     accelerometer.checkAllControlRegs();     // Burst Read all Control Registers, to check for proper setup
-    
+
     pinMode(D1, INPUT_PULLUP);
     pinMode(D2, INPUT_PULLUP);
     pinMode(D3, INPUT_PULLUP);
@@ -40,16 +40,16 @@ void SparkButton::smoothLedOn(float i, uint8_t r, uint8_t g, uint8_t b){
     //uint8_t intI = lrintf(i);
     //Serial.print("intI: ");
     //Serial.println(intI);
-    
+
     //float differ = i-(float)intI + 0.5;
     //Serial.print("differ: ");
     //Serial.println(differ);
-    
+
     float tempI;
     float differ = modff(i, &tempI);
     uint8_t intI = (uint8_t)tempI;
-    
-    
+
+
     // checks to see if it's reeeeally close to being an integer
     //if(abs(differ) < 0.01){
       // intI-1 shifts the location from human readable to the right index for the LEDs
@@ -65,7 +65,7 @@ void SparkButton::smoothLedOn(float i, uint8_t r, uint8_t g, uint8_t b){
         differ1 /= 2;
         //ring.setPixelColor(intI-2, ring.Color((int)(differ1*r),(int)(differ1*g),(int)(differ1*b)));
         ring.setPixelColor(intI-1, ring.Color((int)(differ1*r),(int)(differ1*g),(int)(differ1*b)));
-        ring.setPixelColor(intI, ring.Color((int)(differ*r),(int)(differ*g),(int)(differ*b))); 
+        ring.setPixelColor(intI, ring.Color((int)(differ*r),(int)(differ*g),(int)(differ*b)));
       }
       else {
         differ /= 2;
@@ -183,19 +183,19 @@ uint8_t SparkButton::lowestLed(){
 /*
  Arduino Library for Analog Devices ADXL362 - Micropower 3-axis accelerometer
  go to http://www.analog.com/ADXL362 for datasheet
- 
- License: CC BY-SA 3.0: Creative Commons Share-alike 3.0. Feel free 
+
+ License: CC BY-SA 3.0: Creative Commons Share-alike 3.0. Feel free
  to use and abuse this code however you'd like. If you find it useful
  please attribute, and SHARE-ALIKE!
- 
+
  Created June 2012
  by Anne Mahaffey - hosted on http://annem.github.com/ADXL362
  Modified Mars 2014
  by pixelk
  Modified for Spark Core/Button October 2014
  by jenesaisdiq
- 
- */ 
+
+ */
 
 
 const int slaveSelectPin = A2;
@@ -211,37 +211,37 @@ void ADXL362::begin() {
   SPI.begin();
   SPI.setDataMode(SPI_MODE0); //CPHA = CPOL = 0    MODE = 0
   delay(500);
-    
+
   // soft reset
   mgperLSB = 1;
   SPIwriteOneRegister(XL362_SOFT_RESET, 0x52);  // Write to SOFT RESET, "R"
   delay(10);
-#ifdef ADXL362_DEBUG 
+#ifdef ADXL362_DEBUG
   Serial.println("Soft Reset\n");
 #endif
  }
 
- 
+
 //
 //  beginMeasure()
 //  turn on Measurement mode - required after reset
-// 
+//
 void ADXL362::beginMeasure() {
   uint8_t temp = SPIreadOneRegister(XL362_POWER_CTL); // read Reg 2D before modifying for measure mode
 #ifdef ADXL362_DEBUG
-  Serial.print(  "Setting Measeurement Mode - Reg XL362_POWER_CTL before = "); 
+  Serial.print(  "Setting Measeurement Mode - Reg XL362_POWER_CTL before = ");
   Serial.print(temp);
 #endif
 
   // turn on measurement mode
   temp = (temp & 0b11111100) | XL362_POWER_FLAG_MEASURE_RUNING;     // turn on measurement bit in Reg XL362_POWER_CTL
   SPIwriteOneRegister(XL362_POWER_CTL, temp); // Write to XL362_POWER_CTL, Measurement Mode
-  delay(10);  
-  
+  delay(10);
+
 #ifdef ADXL362_DEBUG
   temp = SPIreadOneRegister(XL362_POWER_CTL);
-  Serial.print(  ", Reg XL362_POWER_CTL after = "); 
-  Serial.println(temp); 
+  Serial.print(  ", Reg XL362_POWER_CTL after = ");
+  Serial.println(temp);
 #endif
 }
 
@@ -252,7 +252,7 @@ void ADXL362::beginMeasure() {
 int ADXL362::readX(){
   int8_t XDATA = SPIreadOneRegister(0x08);
 //#ifdef ADXL362_DEBUG
-//  Serial.print(  "XDATA = "); 
+//  Serial.print(  "XDATA = ");
 //  Serial.println(XDATA);
 //#endif
   return (int)XDATA;
@@ -261,7 +261,7 @@ int ADXL362::readX(){
 int ADXL362::readY(){
   int8_t YDATA = SPIreadOneRegister(0x09);
 //#ifdef ADXL362_DEBUG
-//  Serial.print(  "\tYDATA = "); 
+//  Serial.print(  "\tYDATA = ");
 //  Serial.println(YDATA);
 //#endif
   return (int)YDATA;
@@ -270,7 +270,7 @@ int ADXL362::readY(){
 int ADXL362::readZ(){
   int8_t ZDATA = SPIreadOneRegister(0x0A);
 //#ifdef ADXL362_DEBUG
-//  Serial.print(  "\tZDATA = "); 
+//  Serial.print(  "\tZDATA = ");
 //  Serial.println(ZDATA);
 //#endif
   return (int)ZDATA;
@@ -283,7 +283,7 @@ int ADXL362::readZ(){
 int ADXL362::readX16(){
   int16_t XDATA = SPIreadTwoRegisters(XL362_XDATA_L);
 #ifdef ADXL362_DEBUG
-  Serial.print(  "XDATA = "); 
+  Serial.print(  "XDATA = ");
   Serial.println(XDATA);
 #endif
   return XDATA;
@@ -292,7 +292,7 @@ int ADXL362::readX16(){
 int ADXL362::readY16(){
   int16_t YDATA = SPIreadTwoRegisters(XL362_YDATA_L);
 #ifdef ADXL362_DEBUG
-  Serial.print(  "\tYDATA = "); 
+  Serial.print(  "\tYDATA = ");
   Serial.println(YDATA);
 #endif
   return YDATA;
@@ -301,7 +301,7 @@ int ADXL362::readY16(){
 int ADXL362::readZ16(){
   int16_t ZDATA = SPIreadTwoRegisters(XL362_ZDATA_L);
 #ifdef ADXL362_DEBUG
-  Serial.print(  "\tZDATA = "); 
+  Serial.print(  "\tZDATA = ");
   Serial.println(ZDATA);
 #endif
   return ZDATA;
@@ -312,18 +312,18 @@ int ADXL362::readZ16(){
 int16_t ADXL362::readTemp(){
   int16_t TEMP = SPIreadTwoRegisters(XL362_TEMP_L);
 //#ifdef ADXL362_DEBUG
-//  Serial.print("\tTEMP = "); 
+//  Serial.print("\tTEMP = ");
 //  Serial.println(TEMP);
 //#endif
   return TEMP;
 }
 
 void ADXL362::readXYZTData(short &XData, short &YData, short &ZData, float &Temperature){
-  
+
   // burst SPI read
   // A burst read of all three axis is required to guarantee all measurements correspond to same sample time
   digitalWrite(slaveSelectPin, LOW);
-  
+
   SPI.transfer(0x0B);  // read instruction
   SPI.transfer(XL362_XDATA_L);  // Start at XData Reg
   XData = SPI.transfer(0x00);
@@ -336,11 +336,11 @@ void ADXL362::readXYZTData(short &XData, short &YData, short &ZData, float &Temp
   RawTemperature = RawTemperature + ((short)SPI.transfer(0x00) << 8);
   Temperature = (float)RawTemperature * 0.065;
   digitalWrite(slaveSelectPin, HIGH);
-  
+
 #ifdef ADXL362_DEBUG
-  Serial.print(  "XDATA = "); Serial.print(XData); 
-  Serial.print(  "\tYDATA = "); Serial.print(YData); 
-  Serial.print(  "\tZDATA = "); Serial.print(ZData); 
+  Serial.print(  "XDATA = "); Serial.print(XData);
+  Serial.print(  "\tYDATA = "); Serial.print(YData);
+  Serial.print(  "\tZDATA = "); Serial.print(ZData);
   Serial.println(  "\tTemperature = "); Serial.println(Temperature);
 #endif
 }
@@ -358,27 +358,27 @@ void ADXL362::readXYZmg(int &X, int &Y, int &Z){
   short ZData = SPI.transfer(0x00);
   ZData = ZData + ((short)SPI.transfer(0x00) << 8);
   digitalWrite(slaveSelectPin, HIGH);
-  
+
   X = (int)XData * mgperLSB;
   Y = (int)YData * mgperLSB;
   Z = (int)ZData * mgperLSB;
-  
+
 #ifdef ADXL362_DEBUG
-  Serial.print(  "x = "); Serial.print(X); 
-  Serial.print(  "\ty = "); Serial.print(Y); 
-  Serial.println(  "\tz = "); Serial.print(Z); 
+  Serial.print(  "x = "); Serial.print(X);
+  Serial.print(  "\ty = "); Serial.print(Y);
+  Serial.println(  "\tz = "); Serial.print(Z);
 #endif
 }
 
 void ADXL362::XYZmgtoRPT(int X, int Y, int Z, float &Rho, float &Phi, float &Theta){
   Rho = atan2(float(X), sqrt(pow(float(Y),2)+pow(float(Z),2)));
-  Rho *= 180/M_PI; 
+  Rho *= 180/M_PI;
 
   Phi = atan2(float(Y), sqrt(pow(float(X),2)+pow(float(Z),2)));
-  Phi *= 180/M_PI; 
+  Phi *= 180/M_PI;
 
   Theta = atan2(sqrt(pow(float(X),2)+pow(float(Y),2)),float(Z));
-  Theta *= 180/M_PI;  
+  Theta *= 180/M_PI;
 }
 
 void ADXL362::checkAllControlRegs(){
@@ -404,7 +404,7 @@ void ADXL362::checkAllControlRegs(){
   Serial.print("Reg XL362_FILTER_CTL     = B");   Serial.println(SPI.transfer(0x00), BIN);
   Serial.print("Reg XL362_POWER_CTL      = B");   Serial.println(SPI.transfer(0x00), BIN);
   Serial.print("Reg XL362_SELF_TEST      = B");   Serial.println(SPI.transfer(0x00), BIN);
-  
+
   digitalWrite(slaveSelectPin, HIGH);
 }
 
@@ -413,7 +413,7 @@ void ADXL362::setRange(uint8_t Range){
   // Choose RangeFlag between XL362_FILTER_FLAG_2G (default), XL362_FILTER_FLAG_4G, XL362_FILTER_FLAG_8G
   uint8_t temp = SPIreadOneRegister(XL362_FILTER_CTL);  // read Reg XL362_FILTER_CTL before modifying
 #ifdef ADXL362_DEBUG
-  Serial.print(  "Setting Measurement Range - Reg XL362_FILTER_CTL before = "); 
+  Serial.print(  "Setting Measurement Range - Reg XL362_FILTER_CTL before = ");
   Serial.print(temp);
 #endif
 
@@ -435,12 +435,12 @@ void ADXL362::setRange(uint8_t Range){
 
   temp = temp & 0b00111111 | Range;
   SPIwriteOneRegister(XL362_FILTER_CTL, temp); // Write to XL362_FILTER_CTL
-  delay(10);  
-  
+  delay(10);
+
 #ifdef ADXL362_DEBUG
   temp = SPIreadOneRegister(XL362_FILTER_CTL);
-  Serial.print(  ", Reg after = "); 
-  Serial.println(temp); 
+  Serial.print(  ", Reg after = ");
+  Serial.println(temp);
 #endif
 }
 
@@ -449,18 +449,18 @@ void ADXL362::setBandwidth(uint8_t BandWidth){
   // Choose Bandwidth between XL362_FILTER_FLAG_HBW (default), XL362_FILTER_FLAG_FBW
   uint8_t temp = SPIreadOneRegister(XL362_FILTER_CTL);  // read Reg XL362_FILTER_CTL before modifying
 #ifdef ADXL362_DEBUG
-  Serial.print(  "Setting BandWidth - Reg XL362_FILTER_CTL before = "); 
+  Serial.print(  "Setting BandWidth - Reg XL362_FILTER_CTL before = ");
   Serial.print(temp);
 #endif
 
   temp = temp & 0b11101111 | BandWidth;
   SPIwriteOneRegister(XL362_FILTER_CTL, temp); // Write to XL362_FILTER_CTL
-  delay(10);  
-  
+  delay(10);
+
 #ifdef ADXL362_DEBUG
   temp = SPIreadOneRegister(XL362_FILTER_CTL);
-  Serial.print(  ", Reg after = "); 
-  Serial.println(temp); 
+  Serial.print(  ", Reg after = ");
+  Serial.println(temp);
 #endif
 }
 
@@ -469,18 +469,18 @@ void ADXL362::setOutputDatarate(uint8_t ODR){
   // Choose ODR between  XL362_FILTER_FLAG_ODR12, XL362_FILTER_FLAG_ODR25, XL362_FILTER_FLAG_ODR50, XL362_FILTER_FLAG_ODR100 (default), XL362_FILTER_FLAG_ODR200 , XL362_FILTER_FLAG_ODR400
   uint8_t temp = SPIreadOneRegister(XL362_FILTER_CTL);  // read Reg XL362_FILTER_CTL before modifying
 #ifdef ADXL362_DEBUG
-  Serial.print(  "Setting Output Data Rate - Reg XL362_FILTER_CTL before = "); 
+  Serial.print(  "Setting Output Data Rate - Reg XL362_FILTER_CTL before = ");
   Serial.print(temp);
 #endif
 
   temp = temp & 0b11111000 | ODR;
   SPIwriteOneRegister(XL362_FILTER_CTL, temp); // Write to XL362_FILTER_CTL
-  delay(10);  
-  
+  delay(10);
+
 #ifdef ADXL362_DEBUG
   temp = SPIreadOneRegister(XL362_FILTER_CTL);
-  Serial.print(  ", Reg after = "); 
-  Serial.println(temp); 
+  Serial.print(  ", Reg after = ");
+  Serial.println(temp);
 #endif
 }
 
@@ -489,18 +489,18 @@ void ADXL362::setNoiseLevel(uint8_t NoiseLevel){
   // Choose NoiseLevel between XL362_POWER_FLAG_NOISE_NORMAL (default), XL362_POWER_FLAG_NOISE_LOW, XL362_POWER_FLAG_NOISE_ULTRALOW
   uint8_t temp = SPIreadOneRegister(XL362_POWER_CTL); // read Reg XL362_FILTER_CTL before modifying
 #ifdef ADXL362_DEBUG
-  Serial.print(  "Setting Output Data Rate - Reg XL362_POWER_CTL before = "); 
+  Serial.print(  "Setting Output Data Rate - Reg XL362_POWER_CTL before = ");
   Serial.print(temp);
 #endif
 
   temp = temp & 0b11001111  | NoiseLevel;
   SPIwriteOneRegister(XL362_POWER_CTL, temp); // Write to XL362_FILTER_CTL
-  delay(10);  
-  
+  delay(10);
+
 #ifdef ADXL362_DEBUG
   temp = SPIreadOneRegister(XL362_POWER_CTL);
-  Serial.print(  ", Reg after = "); 
-  Serial.println(temp); 
+  Serial.print(  ", Reg after = ");
+  Serial.println(temp);
 #endif
 }
 
@@ -509,7 +509,7 @@ void ADXL362::setNoiseLevel(uint8_t NoiseLevel){
 
 uint8_t ADXL362::SPIreadOneRegister(uint8_t regAddress){
   uint8_t regValue = 0;
-  
+
   digitalWrite(slaveSelectPin, LOW);
   SPI.transfer(0x0B);  // read instruction
   SPI.transfer(regAddress);
@@ -520,7 +520,7 @@ uint8_t ADXL362::SPIreadOneRegister(uint8_t regAddress){
 }
 
 void ADXL362::SPIwriteOneRegister(uint8_t regAddress, uint8_t regValue){
-  
+
   digitalWrite(slaveSelectPin, LOW);
   SPI.transfer(0x0A);  // write instruction
   SPI.transfer(regAddress);
@@ -530,25 +530,25 @@ void ADXL362::SPIwriteOneRegister(uint8_t regAddress, uint8_t regValue){
 
 int ADXL362::SPIreadTwoRegisters(uint8_t regAddress){
   int twoRegValue = 0;
-  
+
   digitalWrite(slaveSelectPin, LOW);
   SPI.transfer(0x0B);  // read instruction
-  SPI.transfer(regAddress);  
+  SPI.transfer(regAddress);
   twoRegValue = SPI.transfer(0x00);
   twoRegValue = twoRegValue + (SPI.transfer(0x00) << 8);
   digitalWrite(slaveSelectPin, HIGH);
 
   return twoRegValue;
-}  
+}
 
 void ADXL362::SPIwriteTwoRegisters(uint8_t regAddress, int twoRegValue){
-  
+
   uint8_t twoRegValueH = twoRegValue >> 8;
   uint8_t twoRegValueL = twoRegValue;
-  
+
   digitalWrite(slaveSelectPin, LOW);
   SPI.transfer(0x0A);  // write instruction
-  SPI.transfer(regAddress);  
+  SPI.transfer(regAddress);
   SPI.transfer(twoRegValueL);
   SPI.transfer(twoRegValueH);
   digitalWrite(slaveSelectPin, HIGH);
@@ -560,12 +560,12 @@ void ADXL362::SPIwriteTwoRegisters(uint8_t regAddress, int twoRegValue){
 /*-------------------------------------------------------------------------
   Spark Core library to control WS2811/WS2812 based RGB
   LED devices such as Adafruit NeoPixel strips.
-  Currently handles 800 KHz and 400kHz bitstream on Spark Core, 
+  Currently handles 800 KHz and 400kHz bitstream on Spark Core,
   WS2812, WS2812B and WS2811.
 
   Also supports Radio Shack Tri-Color Strip with TM1803 controller
   400kHz bitstream.
-  
+
   Written by Phil Burgess / Paint Your Dragon for Adafruit Industries.
   Modified to work with Spark Core by Technobly.
   Modified to work with Spark Button by jenesaisdiq.
@@ -624,14 +624,14 @@ void Adafruit_NeoPixel::show(void) {
   // allows the mainline code to start generating the next frame of data
   // rather than stalling for the latch.
   while((micros() - endTime) < 50L);
-  
+
   // endTime is a private member (rather than global var) so that multiple
   // instances on different pins can be quickly issued in succession (each
   // instance doesn't delay the next).
 
   __disable_irq(); // Need 100% focus on instruction timing
 
-  volatile uint32_t 
+  volatile uint32_t
     c,    // 24-bit pixel color
     mask; // 8-bit mask
   volatile uint16_t i = numBytes; // Output loop counter
@@ -641,7 +641,7 @@ void Adafruit_NeoPixel::show(void) {
     g,              // Current green byte value
     r,              // Current red byte value
     b;              // Current blue byte value
-  
+
   if(type == WS2812B) { // same as WS2812, 800 KHz bitstream
     while(i) { // While bytes left... (3 bytes = 1 pixel)
       mask = 0x800000; // reset the mask
@@ -700,7 +700,7 @@ void Adafruit_NeoPixel::show(void) {
       } while ( ++j < 24 ); // ... pixel done
     } // end while(i) ... no more pixels
   }
-  
+
   __enable_irq();
   endTime = micros(); // Save EOD time for latch on next call
 }
@@ -726,7 +726,7 @@ void Adafruit_NeoPixel::setPixelColor(
     //if(type == WS2812B) { // WS2812/WS2812B is GRB order.
       *p++ = g;
       *p++ = r;
-    //} 
+    //}
     *p = b;
   }
 }
@@ -747,7 +747,7 @@ void Adafruit_NeoPixel::setPixelColor(uint16_t n, uint32_t c) {
     //if(type == WS2812B) { // WS2812/WS2812B is GRB order.
       *p++ = g;
       *p++ = r;
-    //} 
+    //}
     *p = b;
   }
 }
