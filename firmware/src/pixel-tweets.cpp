@@ -5,13 +5,24 @@ SparkButton button = SparkButton();
 void setup() {
 
     button.begin();
-    Spark.function("pixel", pixel);
+    Spark.function("pixel", split);
+    Spark.function("rainbow", rainbow);
     Serial.begin(9600);
 }
 
 void loop() {
 
+}
 
+int split(String command) {
+
+    char * data;
+    data = strtok(&command[0], "|");
+    while(data != NULL) {
+        pixel(data);
+        data = strtok(NULL, "|");
+    }
+    return 0;
 }
 
 int pixel(String command) {
@@ -28,4 +39,9 @@ int pixel(String command) {
     delay(20);
     button.ledOn(led, r, g, b);
     return 0;
+}
+
+int rainbow(String command) {
+
+    button.rainbow(10);
 }
