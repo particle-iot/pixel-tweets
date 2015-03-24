@@ -44,4 +44,5 @@ int pixel(String command) {
 int rainbow(String command) {
 
     button.rainbow(10);
+    return 0;
 }
